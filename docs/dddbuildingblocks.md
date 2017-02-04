@@ -182,8 +182,8 @@ Works well with and without Event Sourcing.
 
 ---
 
-<img style="width: 800px;" src="http://localhost:7000/img/cqrs1.png">
+<img style="width: 800px;" src="img/cqrs1.png">
 
 ---
 
-<img style="width: 800px;" src="http://localhost:7000/img/cqrs2.png">
+<img style="width: 800px;" src="img/cqrs2.png">
