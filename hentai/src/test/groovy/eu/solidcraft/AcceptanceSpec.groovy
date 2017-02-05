@@ -1,9 +1,13 @@
 package eu.solidcraft
 
 import eu.solidcraft.base.IntegrationSpec
+import org.springframework.security.test.context.support.WithMockUser
+import spock.lang.Ignore
 
+@Ignore
 class AcceptanceSpec extends IntegrationSpec {
 
+    @WithMockUser
     def "positive renting scenario"() {
         given: 'inventory has an old film "American Clingon Bondage" and a new release of "50 shades of Trumpet"'
 
