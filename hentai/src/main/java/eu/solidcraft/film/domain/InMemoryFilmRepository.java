@@ -1,6 +1,5 @@
 package eu.solidcraft.film.domain;
 
-import eu.solidcraft.film.dto.FilmNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,28 +9,28 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-class InMemoryFilmRepository {
+class InMemoryFilmRepository implements FilmRepository {
     private ConcurrentHashMap<String, Film> map = new ConcurrentHashMap();
 
-    Film save(Film film) {
+    @Override
+    public Film save(Film film) {
         requireNonNull(film);
         map.put(film.dto().getTitle(), film);
         return film;
     }
 
-    Film findOneOrThrow(String title) {
-        Film film = map.get(title);
-        if(film == null) {
-            throw new FilmNotFoundException(title);
-        }
-        return film;
+    @Override
+    public Film findOne(String title) {
+        return map.get(title);
     }
 
-    void delete(String title) {
+    @Override
+    public void delete(String title) {
         map.remove(title);
     }
 
-    Page<Film> findAll(Pageable pageable) {
+    @Override
+    public Page<Film> findAll(Pageable pageable) {
         return new PageImpl<>(new ArrayList<>(map.values()), pageable, map.size());
     }
 
