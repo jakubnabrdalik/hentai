@@ -81,5 +81,9 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
         expect:
             mockMvc.perform(get("/film/$nonExistingTitle"))
                 .andExpect(status().isNotFound())
+                .andExpect(content().json("""
+                    {
+                        "message": "No film of title NonExisitngTitle found"
+                    } """))
     }
 }
