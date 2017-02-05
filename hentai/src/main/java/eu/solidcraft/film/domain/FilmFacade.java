@@ -3,14 +3,16 @@ package eu.solidcraft.film.domain;
 import eu.solidcraft.film.dto.FilmDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.util.Objects.requireNonNull;
 
+@Transactional
 public class FilmFacade {
-    private InMemoryFilmRepository filmRepository;
+    private FilmRepository filmRepository;
     private FilmCreator filmCreator;
 
-    public FilmFacade(InMemoryFilmRepository filmRepository, FilmCreator filmCreator) {
+    public FilmFacade(FilmRepository filmRepository, FilmCreator filmCreator) {
         this.filmRepository = filmRepository;
         this.filmCreator = filmCreator;
     }
@@ -24,7 +26,7 @@ public class FilmFacade {
 
     public FilmDto show(String filmDto) {
         requireNonNull(filmDto);
-        Film film = filmRepository.findByIdOrThrow(filmDto);
+        Film film = filmRepository.findOneOrThrow(filmDto);
         return film.dto();
     }
 
