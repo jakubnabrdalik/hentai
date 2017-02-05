@@ -1,0 +1,54 @@
+--- setup
+
+- Show 
+requirements
+build.gradle
+AppRunner
+structure
+Integration and AcceptanceSpec
+
+--- domain
+
+- Write
+FilmSpec
+FilmFacade
+FilmDto
+FilmTypeDto
+
+- Write
+Film
+FilmCreator
+FilmType
+InMemoryFilmRepository
+FilmConfiguration
+SampleFilms
+
+--- controller
+
+- Write 
+FilmControllerAcceptanceSpec
+FilmController
+FilmControllerSliceSpec
+
+--- exceptionHandler
+
+- Write
+FilmController: handleFilmNotFound
+
+--- controller advice with error messages
+
+- Write
+ExceptionHandlingAdvice
+
+--- data jpa & transaction
+
+- Write
+FilmRepository
+log hibernate on debug
+
+--- AOP
+
+- Write
+LoggingAspect
+Log
+LoggingConfiguration

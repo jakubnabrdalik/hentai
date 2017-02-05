@@ -1,0 +1,171 @@
+Core
+MVC
+Data
+AOP
+Boot
+
+Web Reactive Framework
+(+ manual bootstrapping)
+(+ without core)
+
+---
+
+Spring MVC
+	Controller basics & Request mapping
+	Consuming
+	Producing
+	Advanced controllers
+	Arguments
+	Return types
+	Helper methods
+	Data binding
+	Building URIs
+	Controller Advices
+	Handling exceptions
+
+Sprint Data
+	Prepopulating the database
+	Simple repo
+	Custom repo
+	Advanced repo
+	Custom JPA query
+	Custom Native query
+	Paging Sorting
+	Auditing
+	JPA 2.1 support
+	Specifications
+	Spring Data web support
+	Spring Data Class converters
+	Spring Data HandlerMethodArgumentResolver
+	Spring Data Hateoas
+
+Transactions
+	Declarative tx management
+	Isolation, Propagation and other attributes
+	Where to start transaction
+
+IoC + testing
+	Dependency Injection
+	constructor
+	setter
+	magic
+	when to use which
+	Java Config
+	Autowired
+	Java Config vs Autowired
+	Scopes
+	Proxies
+	Profiles
+	Properties	
+	Spring Testing in depth
+
+Spring AOP with AspectJ annotations
+	Terminology
+	Simple aspects
+	Complex aspects
+	Runtime weaving
+	Compile time weaving
+
+---
+
+The problem – Video rental store
+
+For a video rental store we want to create a system for managing the rental administration.
+We want three primary functions.
+- Have an inventory of films
+- Calculate the price for rentals
+- Keep track of the customers “bonus” points
+
+Price
+The price of rentals is based type of film rented and how many days the film is rented for.
+The customers say when renting for how many days they want to rent for and pay up front. If
+the film is returned late, then rent for the extra days is charged when returning.
+
+The store has three types of films.
+- New releases – Price is <premium price> times number of days rented.
+- Regular films – Price is <basic price> for the fist 3 days and then <basic price> times the number of days over 3.
+- Old film - Price is <basic price> for the fist 5 days and then <basic price> times the number of days over 5
+
+<premium price> is 40 SEK
+<basic price> is 30 SEK
+
+The program should expose a rest-ish HTTP API.
+The API should (at least) expose operations for
+
+- Renting one or several films and calculating the price.
+- Returning films and calculating possible surcharges.
+
+Examples of price calculations
+
+Matrix 11 (New release) 1 days 40 SEK
+Spider Man (Regular rental) 5 days 90 SEK
+Spider Man 2 (Regular rental) 2 days 30 SEK
+Out of Africa (Old film) 7 days 90 SEK
+Total price: 250 SEK
+
+When returning films late
+Matrix 11 (New release) 2 extra days 80 SEK
+Spider Man (Regular rental) 1 days 30 SEK
+Total late charge: 110 SEK
+
+Bonus points
+Customers get bonus points when renting films. A new release gives 2 points and other films
+give one point per rental (regardless of the time rented).
+
+--- Acceptance
+
+Hentai Rental 5
+
+As a hipster-deviant, to satisfy my weird desires, I want to:
+
+Happy path scenario:
+
+given inventory has an old film "American Clingon Bondage" and a new release of "50 shades of Trumpet"
+
+when I go to /films
+then I see both films
+
+when I go to /points
+then I see I have no points
+
+when I post to /calculate with both films for 3 days
+then I can see it will cost me 120 SEK for Trumpet and 90 SEK for Clingon
+
+when I post to /rent with both firms for 3 days
+then I have rented both movies
+
+when I go to /rent
+then I see both movies are rented
+
+when I go to /points
+then I see I have 3 points
+
+when I post to /return with Trumper
+then trumper is returned
+
+when I go to /rent
+then I see only Clingon is rented
+
+--- Unit
+
+films
+- list
+- show
+- add
+
+rentals
+- rent
+- calculatePrice
+- return
+- list
+
+points
+- list
+- addForRent
+
+user
+- getLoggedUser
+
+
+
+
