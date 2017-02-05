@@ -7,10 +7,8 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 
-class FilmSpec extends Specification {
+class FilmSpec extends Specification implements SampleFilms {
     FilmFacade facade = new FilmConfiguration().filmFacade()
-    FilmDto trumper = createFilmDto("50 shades of Trumpet", FilmTypeDto.NEW)
-    FilmDto clingon = createFilmDto("American Clingon Bondage", FilmTypeDto.OLD)
 
     def "should show a film"() {
         given: "film is in the system"
@@ -33,14 +31,10 @@ class FilmSpec extends Specification {
             facade.add(clingon)
 
         when: "we ask for all films"
-            Page<FilmDto> foundFilms = facade.find(new PageRequest(0, 10))
+            Page<FilmDto> foundFilms = facade.findAll(new PageRequest(0, 10))
 
         then: "system returns the films we have added"
             foundFilms.contains(trumper)
             foundFilms.contains(clingon)
-    }
-
-    private FilmDto createFilmDto(String title, FilmTypeDto type) {
-        return FilmDto.builder().title(title).type(type).build()
     }
 }

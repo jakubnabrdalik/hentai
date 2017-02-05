@@ -28,7 +28,7 @@ public class FilmFacade {
         return film.dto();
     }
 
-    public Page<FilmDto> find(Pageable pageable) {
+    public Page<FilmDto> findAll(Pageable pageable) {
         requireNonNull(pageable);
         return filmRepository
                 .findAll(pageable)
