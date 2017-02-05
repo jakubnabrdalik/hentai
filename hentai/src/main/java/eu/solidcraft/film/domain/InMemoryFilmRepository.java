@@ -1,5 +1,6 @@
 package eu.solidcraft.film.domain;
 
+import eu.solidcraft.film.dto.FilmNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +35,4 @@ class InMemoryFilmRepository {
         return new PageImpl<>(new ArrayList<>(map.values()), pageable, map.size());
     }
 
-    class FilmNotFoundException extends RuntimeException {
-        public FilmNotFoundException(String title) {
-            super("No film of title \"" + title + "\" found", null, false, false);
-        }
-    }
 }
