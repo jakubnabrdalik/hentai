@@ -39,6 +39,23 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
     MockMvc mockMvc
 
     @WithMockUser
+    def "asking for non existing film should return 404"() {
+        given:
+            String nonExistingTitle = "NonExisitngTitle"
+            filmFacade.show(nonExistingTitle) >> { throw new FilmNotFoundException(nonExistingTitle) }
+
+        expect:
+            mockMvc.perform(get("/film/$nonExistingTitle"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("""
+                    {
+                        "message": "No film of title NonExisitngTitle found"
+                    } """))
+    }
+
+    //We could have slice tests for all controller methods, but consider if it makes sense
+
+    @WithMockUser
     def "should get films"() {
         given: 'inventory has "American Clingon Bondage"'
             filmFacade.findAll(_) >> { Pageable pageable -> new PageImpl([trumper, clingon], pageable, 2) }
@@ -49,7 +66,7 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
         then: 'I see details'
             getFilms.andExpect(status().isOk())
                 .andExpect(content().json("""
-                { 
+                {
                     "content": [
                         {"title":"$clingon.title","type":"$clingon.type"},
                         {"title":"$trumper.title","type":"$trumper.type"}
@@ -70,20 +87,5 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
                 .andExpect(content().json("""
                         {"title":"$clingon.title","type":"$clingon.type"},
                 """, false))
-    }
-
-    @WithMockUser
-    def "asking for non existing film should return 404"() {
-        given:
-            String nonExistingTitle = "NonExisitngTitle"
-            filmFacade.show(nonExistingTitle) >> { throw new FilmNotFoundException(nonExistingTitle) }
-
-        expect:
-            mockMvc.perform(get("/film/$nonExistingTitle"))
-                .andExpect(status().isNotFound())
-                .andExpect(content().json("""
-                    {
-                        "message": "No film of title NonExisitngTitle found"
-                    } """))
     }
 }
