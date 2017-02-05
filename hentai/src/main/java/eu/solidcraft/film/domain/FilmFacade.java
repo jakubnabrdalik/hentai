@@ -1,6 +1,7 @@
 package eu.solidcraft.film.domain;
 
 import eu.solidcraft.film.dto.FilmDto;
+import eu.solidcraft.infrastructure.metrics.logging.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.util.Objects.requireNonNull;
 
 @Transactional
+@Log
 public class FilmFacade {
     private FilmRepository filmRepository;
     private FilmCreator filmCreator;
