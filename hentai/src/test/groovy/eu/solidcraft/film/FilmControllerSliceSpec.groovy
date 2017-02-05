@@ -2,6 +2,7 @@ package eu.solidcraft.film
 
 import eu.solidcraft.film.domain.FilmFacade
 import eu.solidcraft.film.domain.SampleFilms
+import eu.solidcraft.film.dto.FilmNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.TestConfiguration
@@ -69,5 +70,16 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
                 .andExpect(content().json("""
                         {"title":"$clingon.title","type":"$clingon.type"},
                 """, false))
+    }
+
+    @WithMockUser
+    def "asking for non existing film should return 404"() {
+        given:
+            String nonExistingTitle = "NonExisitngTitle"
+            filmFacade.show(nonExistingTitle) >> { throw new FilmNotFoundException(nonExistingTitle) }
+
+        expect:
+            mockMvc.perform(get("/film/$nonExistingTitle"))
+                .andExpect(status().isNotFound())
     }
 }
