@@ -17,7 +17,7 @@ import spock.lang.Specification
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 
-@ActiveProfiles([Profiles.INTEGRATION])
+@ActiveProfiles([Profiles.TEST])
 @ContextConfiguration
 @SpringBootTest(
         classes = [AppRunner],
