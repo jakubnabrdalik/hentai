@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.Objects.requireNonNull;
 
 class InMemoryFilmRepository implements FilmRepository {
-    private ConcurrentHashMap<String, Film> map = new ConcurrentHashMap();
+    private ConcurrentHashMap<String, Film> map = new ConcurrentHashMap<>();
 
     @Override
     public Film save(Film film) {
