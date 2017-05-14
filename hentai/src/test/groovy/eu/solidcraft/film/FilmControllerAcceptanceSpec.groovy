@@ -22,10 +22,10 @@ class FilmControllerAcceptanceSpec extends IntegrationSpec implements SampleFilm
             filmFacade.add(trumper)
             filmFacade.add(clingon)
 
-        when: 'I go to /film'
+        when: 'I go to /films'
             ResultActions getFilms = mockMvc.perform(get("/films"))
 
-        then: 'I see details'
+        then: 'I see all films'
             getFilms.andExpect(status().isOk())
                 .andExpect(content().json("""
                 {
@@ -35,10 +35,10 @@ class FilmControllerAcceptanceSpec extends IntegrationSpec implements SampleFilm
                     ]
                 }"""))
 
-        when: 'I go to /film'
+        when: 'I go to /film/'
             ResultActions getFilm = mockMvc.perform(get("/film/$clingon.title"))
 
-        then: 'I see film'
+        then: 'I see details of that film'
             getFilm.andExpect(status().isOk())
                 .andExpect(content().json("""
                         {"title":"$clingon.title","type":"$clingon.type"},

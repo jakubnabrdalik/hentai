@@ -40,11 +40,11 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
 
     @WithMockUser
     def "asking for non existing film should return 404"() {
-        given:
+        given: "there is no film with the title I want"
             String nonExistingTitle = "NonExisitngTitle"
             filmFacade.show(nonExistingTitle) >> { throw new FilmNotFoundException(nonExistingTitle) }
 
-        expect:
+        expect: "I get 404 and a message"
             mockMvc.perform(get("/film/$nonExistingTitle"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("""
@@ -57,13 +57,13 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
 
     @WithMockUser
     def "should get films"() {
-        given: 'inventory has "American Clingon Bondage"'
+        given: 'inventory has two films'
             filmFacade.findAll(_) >> { Pageable pageable -> new PageImpl([trumper, clingon], pageable, 2) }
 
-        when: 'I go to /film'
+        when: 'I go to /films'
             ResultActions getFilms = mockMvc.perform(get("/films"))
 
-        then: 'I see details'
+        then: 'I see list of those films'
             getFilms.andExpect(status().isOk())
                 .andExpect(content().json("""
                 {
@@ -79,10 +79,10 @@ class FilmControllerSliceSpec extends Specification implements SampleFilms {
         given: 'inventory has an old film "American Clingon Bondage" and a new release of "50 shades of Trumpet"'
             filmFacade.show(clingon.title) >> clingon
 
-        when: 'I go to /films'
+        when: 'I go to /film'
             ResultActions getFilm = mockMvc.perform(get("/film/$clingon.title"))
 
-        then: 'I see film'
+        then: 'I see details of that film'
             getFilm.andExpect(status().isOk())
                 .andExpect(content().json("""
                         {"title":"$clingon.title","type":"$clingon.type"},
