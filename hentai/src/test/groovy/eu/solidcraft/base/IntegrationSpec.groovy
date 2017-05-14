@@ -16,9 +16,10 @@ import spock.lang.Specification
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 
+
 @TypeChecked
-@ActiveProfiles([Profiles.INTEGRATION])
 @SpringBootTest(classes = [AppRunner])
+@ActiveProfiles([Profiles.TEST])
 @Transactional
 @Rollback
 abstract class IntegrationSpec extends Specification {

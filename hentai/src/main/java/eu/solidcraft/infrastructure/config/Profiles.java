@@ -15,24 +15,12 @@ public class Profiles {
     public static final String PROD = "prod";
 
     /**
-     * Profile used for development servers.
+     * Profile used for development (local, demo, etc.)
      */
     public static final String DEV = "dev";
 
     /**
-     * Profile used for test servers, i.e.: manual testing on test servers.
-     * This is NOT for integration tests
-     */
-    public static final String TEST = "test";
-
-    /**
      * Profile used for integration tests
      */
-    public static final String INTEGRATION = "integration";
-
-    /**
-     * Profile used for running on local machine. No service registry.
-     */
-    public static final String LOCAL = "local";
-
+    public static final String TEST = "test";
 }
