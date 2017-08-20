@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.Objects.requireNonNull;
 
 class InMemoryFilmRepository implements FilmRepository {
-    private ConcurrentHashMap<String, Film> map = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Film> map = new ConcurrentHashMap<>();
 
     @Override
     public Film save(Film film) {
@@ -31,7 +31,8 @@ class InMemoryFilmRepository implements FilmRepository {
 
     @Override
     public Page<Film> findAll(Pageable pageable) {
-        return new PageImpl<>(new ArrayList<>(map.values()), pageable, map.size());
+        List<Film> films = new ArrayList<>(map.values());
+        return new PageImpl<>(films, pageable, films.size());
     }
 
 }
