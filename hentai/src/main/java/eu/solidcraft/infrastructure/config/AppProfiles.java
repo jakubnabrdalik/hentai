@@ -8,7 +8,7 @@ package eu.solidcraft.infrastructure.config;
  * This is a class, not an enum, because in different technologies (Groovy for example) enums get tricky to use
  * in annotations over classes in different source roots (test directory).
  */
-public class Profiles {
+public class AppProfiles {
     /**
      * Profile used for any environment to run microservice in production mode.
      */

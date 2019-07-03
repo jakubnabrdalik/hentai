@@ -1,34 +1,30 @@
-buildscript {
-	ext {
-        springBootVersion = '2.1.0.RELEASE'
-        spockVersion = '1.2-groovy-2.5'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'java'
+	id 'groovy'
 }
 
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
+
 apply plugin: 'io.spring.dependency-management'
 
 group = 'eu.solidcraft'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 repositories {
 	mavenCentral()
 }
 
 ext {
-	springCloudVersion = 'Finchley.RELEASE'
-	lombokVersion = '1.18.2'
+	set('springCloudVersion', "Greenwich.SR1")
+	set('spockVersion', '1.2-groovy-2.5')
 }
 
 dependencies {
@@ -42,37 +38,34 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
 	implementation('org.springframework.retry:spring-retry')
 
+	//Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 	//DB
 	implementation('com.h2database:h2')
 
-	//Other
-	compileOnly('org.projectlombok:lombok')
 
 	implementation('commons-io:commons-io:2.5')
 	implementation('org.jsoup:jsoup:1.7.3')
 	implementation('com.google.guava:guava:21.0')
 
-	//best testing library for java/groovy/kotlin so far
-	testImplementation("org.spockframework:spock-core:$spockVersion")
-	testImplementation("org.spockframework:spock-spring:$spockVersion")
-	testImplementation("com.athaydes:spock-reports:1.6.1") {
+	//Tests
+	testImplementation 'org.codehaus.groovy:groovy'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.springframework.security:spring-security-test')
+	testCompile("org.spockframework:spock-core:$spockVersion")
+	testCompile("org.spockframework:spock-spring:$spockVersion")
+	testCompile("com.athaydes:spock-reports:1.6.1") {
 		transitive = false // this avoids affecting your version of Groovy/Spock
 	}
-
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation('org.springframework.security:spring-security-test')
-	testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
-	testImplementation("cglib:cglib-nodep:3.2.5")
-
 }
-
-
-dependencyManagement {
-	imports {		
-		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
+//
+//dependencyManagement {
+//	imports {
+//		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+//	}
+//}
 
 compileJava {
 	options.incremental = true
