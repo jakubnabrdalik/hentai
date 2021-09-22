@@ -18,7 +18,7 @@ class FilmSpec extends Specification implements SampleFilms {
             facade.show(trumper.title) == trumper
     }
 
-    def "should throw exceptionw hen asked for a film that's not in the system"() {
+    def "should throw exception when asked for a film that's not in the system"() {
         when: "system is asked for a film that is not present"
             facade.show("some title we don't have")
         then:
