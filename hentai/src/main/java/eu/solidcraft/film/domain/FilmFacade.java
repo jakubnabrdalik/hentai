@@ -14,7 +14,7 @@ public class FilmFacade {
     private FilmRepository filmRepository;
     private FilmCreator filmCreator;
 
-    public FilmFacade(FilmRepository filmRepository, FilmCreator filmCreator) {
+    FilmFacade(FilmRepository filmRepository, FilmCreator filmCreator) {
         this.filmRepository = filmRepository;
         this.filmCreator = filmCreator;
     }
